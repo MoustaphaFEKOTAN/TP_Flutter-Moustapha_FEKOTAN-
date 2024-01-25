@@ -4,11 +4,11 @@ import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_picker/image_picker.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MyApp(camera: null,));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required camera});
 
   @override
   Widget build(BuildContext context) {
@@ -189,8 +189,11 @@ class _MyHomePageState extends State<MyHomePage> {
         }
       }
     } catch (e) {
-      scannedText = "Erreur lors de la détection du texte";
-    } finally {
+  scannedText="Erreur lors de la détection du texte : $e";
+ 
+   
+}
+finally {
       textRecognizer.close();
       setState(() {
         textScanning = false;
