@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_picker/image_picker.dart';
@@ -55,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     height: 300,
                     color: Colors.grey[300]!,
                   ),
-                if (imageFile != null) Image.network(imageFile!.path),
+                if (imageFile != null) Image.file(File(imageFile!.path)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
