@@ -1,12 +1,14 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
+
 import 'package:image_picker/image_picker.dart';
 
 void main() {
-  runApp(const MyApp(camera: null,));
+  runApp(const MyApp(
+    camera: null,
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -41,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Bienvenue sur L'application de convertion d'image en texte"),
+        title: const Text("Exemple de reconnaissance de texte"),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -178,7 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void getRecognisedText(XFile image) async {
-    final inputImage = InputImage.fromFilePath(imageFile!.path);
+    final inputImage = InputImage.fromFilePath(image.path);
     final textRecognizer = GoogleMlKit.vision.textRecognizer();
 
     try {
@@ -191,11 +193,8 @@ class _MyHomePageState extends State<MyHomePage> {
         }
       }
     } catch (e) {
-  scannedText="Erreur lors de la détection du texte : $e";
- 
-   
-}
-finally {
+      scannedText = "Erreur lors de la détection du texte";
+    } finally {
       textRecognizer.close();
       setState(() {
         textScanning = false;
