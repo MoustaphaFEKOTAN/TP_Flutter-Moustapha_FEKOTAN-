@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     height: 300,
                     color: Colors.grey[300]!,
                   ),
-                if (imageFile != null) Image.network(imageFile!.path),
+                if (imageFile != null) Image.file(File(imageFile!.path)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
