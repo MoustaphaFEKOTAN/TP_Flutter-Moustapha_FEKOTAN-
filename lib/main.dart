@@ -1,9 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
-
 import 'package:image_picker/image_picker.dart';
+import 'package:translator/translator.dart';
 
 void main() {
   runApp(const MyApp(
@@ -37,13 +39,15 @@ class _MyHomePageState extends State<MyHomePage> {
   bool textScanning = false;
   XFile? imageFile;
   String scannedText = "";
-
+  // ignore: non_constant_identifier_names
+  String TranslateText = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Exemple de reconnaissance de texte"),
+        title: const Text(
+            "Bienvenue sur l'application de reconnaissance de Texte sur image"),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -59,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     height: 300,
                     color: Colors.grey[300]!,
                   ),
-                if (imageFile != null) Image.file(File(imageFile!.path)),
+                if (imageFile != null) Image.network(imageFile!.path),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -192,6 +196,15 @@ class _MyHomePageState extends State<MyHomePage> {
           scannedText = "$scannedText${line.text}\n";
         }
       }
+
+      // Traduction du texte extrait
+      if (scannedText.isNotEmpty) {
+        String currentLanguage = Localizations.localeOf(context).languageCode;
+        String translatedText =
+            await translateText(scannedText, currentLanguage);
+       
+        TranslateText = "Texte traduit : $translatedText";
+      }
     } catch (e) {
       scannedText = "Erreur lors de la détection du texte";
     } finally {
@@ -200,6 +213,13 @@ class _MyHomePageState extends State<MyHomePage> {
         textScanning = false;
       });
     }
+  }
+
+  Future<String> translateText(String text, String targetLanguage) async {
+    final translator = GoogleTranslator();
+    Translation translation =
+        await translator.translate(text, to: targetLanguage);
+    return translation.text;
   }
 
   @override
